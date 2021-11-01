@@ -92,6 +92,8 @@ public struct TLPhotosPickerConfigure {
     public var groupByFetch: PHFetchedResultGroupedBy? = nil
     public var supportedInterfaceOrientations: UIInterfaceOrientationMask = .portrait
     public var popup: [PopupConfigure] = []
+    public var cellWidthSpacing: CGFloat = 5
+    public var cellHeightSpacing: CGFloat = 5
     public init() {
         
     }
@@ -385,10 +387,11 @@ extension TLPhotosPickerViewController {
             return
         }
         let count = CGFloat(self.configure.numberOfColumn)
-        let width = floor((self.view.frame.size.width-(5*(count-1)))/count)
+        let width = floor((self.view.frame.size.width-(self.configure.cellWidthSpacing*(count-1)))/count)
         self.thumbnailSize = CGSize(width: width, height: width)
         layout.itemSize = self.thumbnailSize
         layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = self.configure.cellHeightSpacing
         self.collectionView.collectionViewLayout = layout
         self.placeholderThumbnail = centerAtRect(image: self.configure.placeholderIcon, rect: CGRect(x: 0, y: 0, width: width, height: width))
         self.cameraImage = centerAtRect(image: self.configure.cameraIcon, rect: CGRect(x: 0, y: 0, width: width, height: width), bgColor: self.configure.cameraBgColor)
